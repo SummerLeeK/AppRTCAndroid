@@ -1,0 +1,54 @@
+plugins {
+    id 'com.android.application'
+    id 'org.jetbrains.kotlin.android'
+}
+
+android {
+    namespace 'cn.aisaka.signalclient'
+    compileSdk 33
+
+    defaultConfig {
+        applicationId "cn.aisaka.signalclient"
+        minSdk 24
+        targetSdk 31
+        versionCode 1
+        versionName "1.0"
+
+        testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+    }
+
+    buildTypes {
+        debug {
+            debuggable true     // 必须设置为 true
+            jniDebuggable true  // 必须设置为 true
+            minifyEnabled false // 必须设置为 false
+            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+        }
+    }
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_1_8
+        targetCompatibility JavaVersion.VERSION_1_8
+    }
+    packagingOptions {
+        // 如果不设置 doNotStrip，编译出来的安装包还是会丢失调试信息；
+        // 因为我们只编译了 arm64-v8a 架构的包，所以只需要配置这一行即可
+        doNotStrip "*/arm64-v8a/*.so"
+    }
+    kotlinOptions {
+        jvmTarget = '1.8'
+    }
+}
+
+dependencies {
+    implementation 'com.alibaba:fastjson:1.1.70.android'
+    implementation 'androidx.core:core-ktx:1.7.0'
+    implementation files('libs/libwebrtc_strip.aar')
+    implementation files('libs/autobanh.jar')
+    implementation 'androidx.appcompat:appcompat:1.6.1'
+    implementation 'com.google.android.material:material:1.8.0'
+    implementation 'androidx.constraintlayout:constraintlayout:2.1.4'
+    implementation("com.squareup.okhttp3:okhttp:4.10.0")
+    testImplementation 'junit:junit:4.13.2'
+    androidTestImplementation 'androidx.test.ext:junit:1.1.5'
+    androidTestImplementation 'androidx.test.espresso:espresso-core:3.5.1'
+}
